@@ -1,0 +1,33 @@
+buildscript{
+    repositories{
+        jcenter()
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies{
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'spring-boot'
+
+springBoot {
+    executable = true
+    excludeDevtools = true
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    compile ('org.springframework.boot:spring-boot-starter-web'){
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile "org.springframework.boot:spring-boot-starter-jetty"
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+    mavenLocal()
+}
