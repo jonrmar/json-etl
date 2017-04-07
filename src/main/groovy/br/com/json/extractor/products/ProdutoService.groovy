@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service
  */
 @Service
 class ProdutoService {
-
-    final ServiceClient service
-    final FileProcessor processor
+    private static final Integer STEP = 49
+    private final ServiceClient service
+    private final FileProcessor processor
 
     @Autowired
     ProdutoService(ServiceClient service, FileProcessor processor) {
@@ -21,10 +21,13 @@ class ProdutoService {
         this.processor = processor
     }
 
-    def getProdutosFile(domain, environment, from, to){
-        List<Product> produtos = service.getProducts(domain, environment, from, to)
-        produtos?.each { Product produto ->
-            processor.appendToFile(produto.productName)
+    def getProdutosFile(String domain,String environment){
+        String count = service.getCountProducts(domain, environment)
+        1.step count.toInteger(), STEP, {
+            List<Product> produtos = service.getProducts(domain, environment, it.toString(), (it+STEP).toString())
+            produtos?.each { Product produto ->
+                processor.appendToFile(produto.productName)
+            }
         }
     }
 }

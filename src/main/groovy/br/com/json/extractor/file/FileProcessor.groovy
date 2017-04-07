@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service
 class FileProcessor {
 
     def appendToFile(String message){
-        def file = new File('produtos.txt')
+        createFile().append("$message\n")
+    }
 
-        file.withWriter('UTF-8') { writer ->
-            writer.write(message)
-        }
+    def createFile(){
+        new File('./src/main/resources/produtos.txt')
     }
 }

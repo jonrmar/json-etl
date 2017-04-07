@@ -4,7 +4,10 @@ import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RestController
 
 /**
  * Created by jonathan on 06/04/17.
@@ -23,10 +26,9 @@ class ProductsController {
     }
 
     @RequestMapping(path = "/find/{domain}/{environment}/", method = RequestMethod.GET)
-    findProducts(@PathVariable('domain') String domain, @PathVariable('environment') String environment,
-                 @RequestParam('from') String from, @RequestParam('to') String to){
+    findProducts(@PathVariable('domain') String domain, @PathVariable('environment') String environment){
         log.info("Getting products from: $domain")
-        service.getProdutosFile(domain, environment, from, to)
-        new ResponseEntity(HttpStatus.OK)
+        service.getProdutosFile(domain, environment)
+        new ResponseEntity(HttpStatus.CREATED)
     }
 }
